@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: league-of-legends
+  description: The league of legends website api
+  tags:
+    - league-of-legends
+    - rest
+spec:
+  type: openapi
+  lifecycle: production
+  owner: tliard
+  definition:
+    # le $text traduit le fichier yaml dans l'url en texte
+    $text: https://github.com/tliard/backstage-yaml/blob/master/api/apis/definition/league-of-legends-api-definition.yaml

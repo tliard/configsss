@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: world-of-warcraft
+  description: meilleur jeu au monde depuis sa sortie en 2004
+  tags:
+    - world-of-warcraft
+spec:
+  type: untrucaupif
+  lifecycle: unautretrucaupif
+  owner: tliard
+  consumesApis: 
+    - league-of-legends
+  definition: |
+    Définition de l'api world of warcraft !
+    Je sais pas trop quoi mettre dedans, ici c'est un plain text ou il se passe pas grand chose.
+    La définition de l'api league of legends est plus jolie, mais a l'air de provoquer pleins de bugs dans la console :/

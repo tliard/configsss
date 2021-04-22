@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: custom-apis
+  description: Des apis rajoutées à la main
+spec:
+  targets:
+    - ./apis/world-of-warcraft-api-yaml
+    - ./apis/league-of-legends-api.yaml
+    

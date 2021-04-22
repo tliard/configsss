@@ -1,0 +1,1117 @@
+openapi: 3.0.1
+servers:
+  - url: https://api.spotify.com/v1
+info:
+  title: Spotify Web API
+  version: 2021.4.2
+  x-apisguru-categories:
+    - media
+  x-logo:
+    url: https://logo-core.clearbit.com/spotify.com
+  x-origin:
+    - format: openapi
+      url: https://raw.githubusercontent.com/sonallux/spotify-web-api/master/spotify-web-api-generator-open-api/spotify-web-api-openapi.yml
+      version: "3.0"
+  x-providerName: spotify.com
+  x-unofficialSpec: true
+externalDocs:
+  description: Find more info on the official Spotify Web API Reference
+  url: https://developer.spotify.com/documentation/web-api/reference
+tags:
+  - description: Albums API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-albums
+    name: category-albums
+  - description: Artists API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-artists
+    name: category-artists
+  - description: Browse API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-browse
+    name: category-browse
+  - description: Episodes API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-episodes
+    name: category-episodes
+  - description: Follow API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-follow
+    name: category-follow
+  - description: Library API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-library
+    name: category-library
+  - description: Markets API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-markets
+    name: category-markets
+  - description: Personalization API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-personalization
+    name: category-personalization
+  - description: Player API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-player
+    name: category-player
+  - description: Playlists API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-playlists
+    name: category-playlists
+  - description: Search API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-search
+    name: category-search
+  - description: Shows API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-shows
+    name: category-shows
+  - description: Tracks API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-tracks
+    name: category-tracks
+  - description: Users Profile API
+    externalDocs:
+      description: Find more info on the official Spotify Web API Reference
+      url: https://developer.spotify.com/documentation/web-api/reference/#category-users-profile
+    name: category-users-profile
+paths:
+  /albums:
+    get:
+      description: Get Spotify catalog information for multiple albums identified by
+        their Spotify IDs.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-multiple-albums
+      operationId: endpoint-get-multiple-albums
+      parameters:
+        - description: A valid user access token or your client credentials.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: "A comma-separated list of the [Spotify
+            IDs](https://developer.spotify.com/documentation/web-api/#spotify-u\
+            ris-and-ids) for the albums. Maximum: 20 IDs."
+          in: query
+          name: ids
+          required: true
+          schema:
+            type: string
+        - description: An [ISO 3166-1 alpha-2 country
+            code](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) or the string
+            from_token. Provide this parameter if you want to apply [Track
+            Relinking](https://developer.spotify.com/documentation/general/guides/track-relinking-guide/).
+          in: query
+          name: market
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlbumsObject"
+          description: >-
+            On success, the HTTP status code in the response header is `200` OK
+            and the response body contains an object whose key is `"albums"` and
+            whose value is an array of [album
+            objects](https://developer.spotify.com/documentation/web-api/reference/#object-albumobject)
+            in JSON format.
+            Objects are returned in the order requested. If an object is not found, a `null` value is returned in the appropriate position. Duplicate `ids` in the query will result in duplicate objects in the response. On error, the header status code is an [error code](https://developer.spotify.com/documentation/web-api/#response-status-codes) and the response body contains an [error object](https://developer.spotify.com/documentation/web-api/#response-schema).
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth: []
+      summary: Get Multiple Albums
+      tags:
+        - category-albums
+  "/albums/{id}":
+    get:
+      description: Get Spotify catalog information for a single album.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-an-album
+      operationId: endpoint-get-an-album
+      parameters:
+        - description: A valid user access token or your client credentials.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: The Spotify ID of the album.
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - description: The market you'd like to request. Synonym for `country`.
+          in: query
+          name: market
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlbumObject"
+          description: On success, the HTTP status code in the response header is 200 OK
+            and the response body contains an album object in JSON format. On
+            error, the header status code is an error code and the response body
+            contains an error object.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth: []
+      summary: Get an Album
+      tags:
+        - category-albums
+  "/albums/{id}/tracks":
+    get:
+      description: |-
+        Get Spotify catalog information about an album's tracks.
+        Optional parameters can be used to limit the number of tracks returned.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-an-albums-tracks
+      operationId: endpoint-get-an-albums-tracks
+      parameters:
+        - description: A valid user access token or your client credentials.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: The Spotify ID of the album.
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - description: An [ISO 3166-1 alpha-2 country
+            code](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) or the string
+            from_token. Provide this parameter if you want to apply [Track
+            Relinking](https://developer.spotify.com/documentation/general/guides/track-relinking-guide/).
+          in: query
+          name: market
+          required: false
+          schema:
+            type: string
+        - description: "The maximum number of tracks to return. Default: 20. Minimum: 1.
+            Maximum: 50."
+          in: query
+          name: limit
+          required: false
+          schema:
+            format: int32
+            type: integer
+        - description: "The index of the first track to return. Default: 0 (the first
+            object). Use with limit to get the next set of tracks."
+          in: query
+          name: offset
+          required: false
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                externalDocs:
+                  description: Find more info on the official Spotify Web API Reference
+                  url: https://developer.spotify.com/documentation/web-api/reference/#object-pagingobject
+                properties:
+                  href:
+                    description: A link to the Web API endpoint returning the full result of the
+                      request
+                    type: string
+                  items:
+                    description: The requested data.
+                    items:
+                      $ref: "#/components/schemas/SimplifiedTrackObject"
+                    type: array
+                  limit:
+                    description: The maximum number of items in the response (as set in the query or
+                      by default).
+                    format: int32
+                    type: integer
+                  next:
+                    description: URL to the next page of items. ( `null` if none)
+                    type: string
+                  offset:
+                    description: The offset of the items returned (as set in the query or by
+                      default)
+                    format: int32
+                    type: integer
+                  previous:
+                    description: URL to the previous page of items. ( `null` if none)
+                    type: string
+                  total:
+                    description: The total number of items available to return.
+                    format: int32
+                    type: integer
+                type: object
+          description: On success, the HTTP status code in the response header is 200 OK
+            and the response body contains an album object in JSON format. On
+            error, the header status code is an error code and the response body
+            contains an error object.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth: []
+      summary: Get an Album's Tracks
+      tags:
+        - category-albums
+  /me/following:
+    delete:
+      description: Remove the current user as a follower of one or more artists or
+        other Spotify users.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-unfollow-artists-users
+      operationId: endpoint-unfollow-artists-users
+      parameters:
+        - description: A valid user access token or your client credentials. Requires the
+            `user-follow-modify` scope.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: "*Required if IDs are passed in the request body, otherwise
+            ignored* . The content type of the request body:
+            `application/json`."
+          in: header
+          name: Content-Type
+          required: false
+          schema:
+            type: string
+        - description: "The ID type: either `artist` or `user`."
+          in: query
+          name: type
+          required: true
+          schema:
+            type: string
+        - description: "A comma-separated list of the artist or the user [Spotify
+            IDs](https://developer.spotify.com/documentation/web-api/#spotify-u\
+            ris-and-ids). For example:
+            `ids=74ASZWbe4lXaubB36ztrGX,08td7MxkoHQkXnWAYD8d6Q`. A maximum of 50
+            IDs can be sent in one request."
+          in: query
+          name: ids
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                ids:
+                  description: 'A JSON array of the artist or user [Spotify
+                    IDs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids).
+                    For example: `{ids:["74ASZWbe4lXaubB36ztrGX",
+                    "08td7MxkoHQkXnWAYD8d6Q"]}`. A maximum of 50 IDs can be sent
+                    in one request. *Note: if the `ids` parameter is present in
+                    the query string, any IDs listed here in the body will be
+                    ignored.*'
+                  items:
+                    type: string
+                  type: array
+              type: object
+        required: false
+      responses:
+        "204":
+          description: >-
+            On success, the HTTP status code in the response header is `204` No
+            Content and the response body is empty.
+
+            On error, the header status code is an [error code](https://developer.spotify.com/documentation/web-api/#response-status-codes) and the response body contains an [error object](https://developer.spotify.com/documentation/web-api/#response-schema).
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-follow-modify
+      summary: Unfollow Artists or Users
+      tags:
+        - category-follow
+    get:
+      description: Get the current user's followed artists.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-followed
+      operationId: endpoint-get-followed
+      parameters:
+        - description: A valid user access token or your client credentials. Requires the
+            `user-follow-modify` scope.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: "The ID type: currently only `artist` is supported."
+          in: query
+          name: type
+          required: true
+          schema:
+            type: string
+        - description: The last artist ID retrieved from the previous request.
+          in: query
+          name: after
+          required: false
+          schema:
+            type: string
+        - description: "The maximum number of items to return. Default: 20. Minimum: 1.
+            Maximum: 50."
+          in: query
+          name: limit
+          required: false
+          schema:
+            format: int32
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FollowingArtistsObject"
+          description: >-
+            On success, the HTTP status code in the response header is `200` OK
+            and the response body contains an `artists` object.
+
+            The `artists` object in turn contains a [cursor-based paging object](https://developer.spotify.com/documentation/web-api/reference/#object-cursorpagingobject) of [Artists](https://developer.spotify.com/documentation/web-api/reference/#object-artistobject).
+
+            On error, the header status code is an [error code](https://developer.spotify.com/documentation/web-api/#response-status-codes) and the response body contains an [error object](https://developer.spotify.com/documentation/web-api/#response-schema).
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-follow-modify
+      summary: Get User's Followed Artists
+      tags:
+        - category-follow
+    put:
+      description: Add the current user as a follower of one or more artists or other
+        Spotify users.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-follow-artists-users
+      operationId: endpoint-follow-artists-users
+      parameters:
+        - description: A valid user access token or your client credentials. Requires the
+            `user-follow-modify` scope.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: "*Required if IDs are passed in the request body, otherwise
+            ignored* . The content type of the request body: `application/json`"
+          in: header
+          name: Content-Type
+          required: false
+          schema:
+            type: string
+        - description: "The ID type: either `artist` or `user`."
+          in: query
+          name: type
+          required: true
+          schema:
+            type: string
+        - description: "A comma-separated list of the artist or the user [Spotify
+            IDs](https://developer.spotify.com/documentation/web-api/#spotify-u\
+            ris-and-ids). For example:
+            `ids=74ASZWbe4lXaubB36ztrGX,08td7MxkoHQkXnWAYD8d6Q`. A maximum of 50
+            IDs can be sent in one request."
+          in: query
+          name: ids
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                ids:
+                  description: 'A JSON array of the artist or user [Spotify
+                    IDs](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids).
+                    For example: `{ids:["74ASZWbe4lXaubB36ztrGX",
+                    "08td7MxkoHQkXnWAYD8d6Q"]}`. A maximum of 50 IDs can be sent
+                    in one request. *Note: if the `ids` parameter is present in
+                    the query string, any IDs listed here in the body will be
+                    ignored.*'
+                  items:
+                    type: string
+                  type: array
+              required:
+                - ids
+              type: object
+        required: true
+      responses:
+        "204":
+          description: >-
+            On success, the HTTP status code in the response header is `204` No
+            Content and the response body is empty.
+
+            On error, the header status code is an [error code](https://developer.spotify.com/documentation/web-api/#response-status-codes) and the response body contains an [error object](https://developer.spotify.com/documentation/web-api/#response-schema).
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-follow-modify
+      summary: Follow Artists or Users
+      tags:
+        - category-follow
+  /me/following/contains:
+    get:
+      description: Check to see if the current user is following one or more artists
+        or other Spotify users.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-check-current-user-follows
+      operationId: endpoint-check-current-user-follows
+      parameters:
+        - description: A valid user access token or your client credentials. Requires the
+            `user-follow-read` scope.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: "The ID type: either `artist` or `user`."
+          in: query
+          name: type
+          required: true
+          schema:
+            type: string
+        - description: "A comma-separated list of the artist or the user [Spotify
+            IDs](https://developer.spotify.com/documentation/web-api/#spotify-u\
+            ris-and-ids) to check. For example:
+            `ids=74ASZWbe4lXaubB36ztrGX,08td7MxkoHQkXnWAYD8d6Q`. A maximum of 50
+            IDs can be sent in one request."
+          in: query
+          name: ids
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: boolean
+                type: array
+          description: >-
+            On success, the HTTP status code in the response header is `200` OK
+            and the response body contains a JSON array of `true` or `false`
+            values, in the same order in which the `ids` were specified.
+
+            On error, the header status code is an [error code](https://developer.spotify.com/documentation/web-api/#response-status-codes) and the response body contains an [error object](https://developer.spotify.com/documentation/web-api/#response-schema).
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-follow-read
+      summary: Get Following State for Artists/Users
+      tags:
+        - category-follow
+  /me/player:
+    get:
+      description: Get information about the user's current playback state, including
+        track or episode, progress, and active device.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-information-about-the-users-current-playback
+      operationId: endpoint-get-information-about-the-users-current-playback
+      parameters:
+        - description: "A valid access token from the Spotify Accounts service: see the
+            [Web API Authorization
+            Guide](https://developer.spotify.com/documentation/general/guides/a\
+            uthorization-guide/) for details."
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: >-
+            An [ISO 3166-1 alpha-2 country
+            code](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) or the string
+            `from_token`. Provide this parameter if you want to apply [Track
+
+            Relinking](https://developer.spotify.com/documentation/general/guides/track-relinking-guide/).
+          in: query
+          name: market
+          required: false
+          schema:
+            type: string
+        - description: "A comma-separated list of item types that your client supports
+            besides the default `track` type. Valid types are: `track` and
+            `episode`. An unsupported type in the response is expected to be
+            represented as `null` value in the `item` field. **Note**: This
+            parameter was introduced to allow existing clients to maintain their
+            current behaviour and might be deprecated in the future. In addition
+            to providing this parameter, make sure that your client properly
+            handles cases of new"
+          in: query
+          name: additional_types
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentlyPlayingContextObject"
+          description: >-
+            A successful request will return a `200 OK` response code with a
+            json payload that contains information about the current playback.
+            The information returned is for the last known state, which means an
+            inactive device could be returned if it was the last one to execute
+            playback.
+
+            When no available devices are found, the request will return a `200 OK` response but with no data populated.
+        "204":
+          description: >-
+            A successful request will return a `200 OK` response code with a
+            json payload that contains information about the current playback.
+            The information returned is for the last known state, which means an
+            inactive device could be returned if it was the last one to execute
+            playback.
+
+            When no available devices are found, the request will return a `200 OK` response but with no data populated.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-read-playback-state
+      summary: Get Information About The User's Current Playback
+      tags:
+        - category-player
+    put:
+      description: Transfer playback to a new device and determine if it should start
+        playing.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-transfer-a-users-playback
+      operationId: endpoint-transfer-a-users-playback
+      parameters:
+        - description: >-
+            A valid access token from the Spotify Accounts service: see the
+            [Web API Authorization
+            Guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+            for details.  
+
+            The access token must have been issued on behalf of a user.  
+
+            The access token must have the `user-modify-playback-state` scope authorized in order to control playback.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                device_ids:
+                  description: >-
+                    A JSON array containing the ID of the device on which playback
+                    should be started/transferred.  
+
+                    For example:`{device_ids:["74ASZWbe4lXaubB36ztrGX"]}`  
+
+                    Note: Although an array is accepted, only a single device_id is currently supported. Supplying more than one will return `400 Bad Request`
+                  items:
+                    type: string
+                  type: array
+                play:
+                  description: |-
+                    **true** : ensure playback happens on new device.  
+                    **false** or not provided: keep the current playback state.
+                  type: boolean
+              required:
+                - device_ids
+              type: object
+        required: true
+      responses:
+        "204":
+          description: >-
+            A completed request will return a `204 NO CONTENT` response code,
+            and then issue the command to the player. Due to the asynchronous
+            nature of the issuance of the command, you should use the [Get
+            Information About The User's Current
+            Playback](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-information-about-the-users-current-playback)
+            endpoint to check that your issued command was handled correctly by
+            the player.
+
+
+            If the device is not found, the request will return `404 NOT FOUND` response code.
+
+
+            If the user making the request is non-premium, a `403 FORBIDDEN` response code will be returned.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-modify-playback-state
+      summary: Transfer a User's Playback
+      tags:
+        - category-player
+  /me/player/currently-playing:
+    get:
+      description: Get the object currently being played on the user's Spotify account.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-the-users-currently-playing-track
+      operationId: endpoint-get-the-users-currently-playing-track
+      parameters:
+        - description: "A valid access token from the Spotify Accounts service: see the
+            [Web API Authorization
+            Guide](https://developer.spotify.com/documentation/general/guides/a\
+            uthorization-guide/) for details. The access token must have been
+            issued on behalf of a user. The access token must have the
+            `user-read-currently-playing` and/or `user-read-playback-state`
+            scope authorized in order to read information."
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: >-
+            An [ISO 3166-1 alpha-2 country
+            code](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) or the string
+            `from_token`. Provide this parameter if you want to apply [Track
+
+            Relinking](https://developer.spotify.com/documentation/general/guides/track-relinking-guide/).
+          in: query
+          name: market
+          required: true
+          schema:
+            type: string
+        - description: "A comma-separated list of item types that your client supports
+            besides the default `track` type. Valid types are: `track` and
+            `episode`. An unsupported type in the response is expected to be
+            represented as `null` value in the `item` field. **Note** : This
+            parameter was introduced to allow existing clients to maintain their
+            current behaviour and might be deprecated in the future. In addition
+            to providing this parameter, make sure that your client properly
+            handles cases of new types in the future by checking against the
+            `currently_playing_type` field."
+          in: query
+          name: additional_types
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentlyPlayingObject"
+          description: >-
+            A successful request will return a `200 OK` response code with a
+            json payload that contains information about the currently playing
+            track or episode and its context (see below). The information
+            returned is for the last known state, which means an inactive device
+            could be returned if it was the last one to execute playback.
+
+
+            When no available devices are found, the request will return a `200 OK` response but with no data populated.
+
+
+            When no track is currently playing, the request will return a `204 NO CONTENT` response with no payload.
+
+
+            If private session is enabled the response will be a `204 NO CONTENT` with an empty payload.
+        "204":
+          description: >-
+            A successful request will return a `200 OK` response code with a
+            json payload that contains information about the currently playing
+            track or episode and its context (see below). The information
+            returned is for the last known state, which means an inactive device
+            could be returned if it was the last one to execute playback.
+
+
+            When no available devices are found, the request will return a `200 OK` response but with no data populated.
+
+
+            When no track is currently playing, the request will return a `204 NO CONTENT` response with no payload.
+
+
+            If private session is enabled the response will be a `204 NO CONTENT` with an empty payload.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-read-currently-playing
+            - user-read-playback-state
+      summary: Get the User's Currently Playing Track
+      tags:
+        - category-player
+  /me/player/devices:
+    get:
+      description: Get information about a user's available devices.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-a-users-available-devices
+      operationId: endpoint-get-a-users-available-devices
+      parameters:
+        - description: "A valid access token from the Spotify Accounts service: see the
+            [Web API Authorization
+            Guide](https://developer.spotify.com/documentation/general/guides/a\
+            uthorization-guide/) for details. The access token must have been
+            issued on behalf of a user. The access token must have the
+            `user-read-playback-state` scope authorized in order to read
+            information."
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DevicesObject"
+          description: >-
+            A successful request will return a `200 OK` response code with a
+            json payload that contains the device objects (see below).
+
+            When no available devices are found, the request will return a 200 OK response with an empty devices list.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-read-playback-state
+      summary: Get a User's Available Devices
+      tags:
+        - category-player
+  /me/player/next:
+    post:
+      description: Skips to next track in the user's queue.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-skip-users-playback-to-next-track
+      operationId: endpoint-skip-users-playback-to-next-track
+      parameters:
+        - description: >-
+            A valid access token from the Spotify Accounts service: see the
+            [Web API Authorization
+            Guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+            for details.  
+
+            The access token must have been issued on behalf of a user.  
+
+            The access token must have the `user-modify-playback-state` scope authorized in order to control playback.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: The id of the device this command is targeting. If not supplied,
+            the user's currently active device is the target.
+          in: query
+          name: device_id
+          required: false
+          schema:
+            type: string
+      responses:
+        "204":
+          description: >-
+            A completed request will return a `204 NO CONTENT` response code,
+            and then issue the command to the player. Due to the asynchronous
+            nature of the issuance of the command, you should use the [Get
+            Information About The User's Current
+            Playback](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-information-about-the-users-current-playback)
+            endpoint to check that your issued command was handled correctly by
+            the player.
+
+
+            If the device is not found, the request will return `404 NOT FOUND` response code.
+
+
+            If the user making the request is non-premium, a `403 FORBIDDEN` response code will be returned.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-modify-playback-state
+      summary: Skip User’s Playback To Next Track
+      tags:
+        - category-player
+  /me/player/pause:
+    put:
+      description: Pause playback on the user's account.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-pause-a-users-playback
+      operationId: endpoint-pause-a-users-playback
+      parameters:
+        - description: >-
+            A valid access token from the Spotify Accounts service: see the
+            [Web API Authorization
+            Guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+            for details.  
+
+            The access token must have been issued on behalf of a user.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: The id of the device this command is targeting. If not supplied,
+            the user's currently active device is the target.
+          in: query
+          name: device_id
+          required: false
+          schema:
+            type: string
+      responses:
+        "204":
+          description: >-
+            A completed request will return a `204 NO CONTENT` response code,
+            and then issue the command to the player. Due to the asynchronous
+            nature of the issuance of the command, you should use the [Get
+            Information About The User's Current
+            Playback](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-information-about-the-users-current-playback)
+            endpoint to check that your issued command was handled correctly by
+            the player.
+
+
+            If the device is not found, the request will return `404 NOT FOUND` response code.
+
+
+            If the user making the request is non-premium, a `403 FORBIDDEN` response code will be returned.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth: []
+      summary: Pause a User's Playback
+      tags:
+        - category-player
+  /me/player/play:
+    put:
+      description: Start a new context or resume current playback on the user's active
+        device.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-start-a-users-playback
+      operationId: endpoint-start-a-users-playback
+      parameters:
+        - description: >-
+            A valid access token from the Spotify Accounts service: see the
+            [Web API Authorization
+            Guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+            for details.  
+
+            The access token must have been issued on behalf of a user.  
+
+            The access token must have the `user-modify-playback-state` scope authorized in order to control playback.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: The id of the device this command is targeting. If not supplied,
+            the user's currently active device is the target.
+          in: query
+          name: device_id
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                context_uri:
+                  description: 'Spotify URI of the context to play. Valid contexts are albums,
+                    artists, playlists. Example: {"context_uri":
+                    "spotify:album:1Je1IMUlBXcx1Fz0WE7oPT"}'
+                  type: string
+                offset:
+                  description: 'Indicates from where in the context playback should start. Only
+                    available when context_uri corresponds to an album or
+                    playlist object, or when the uris parameter is used.
+                    “position” is zero based and can’t be negative. Example:
+                    "offset": {"position": 5} “uri” is a string representing the
+                    uri of the item to start at. Example: "offset": {"uri":
+                    "spotify:track:1301WleyT98MSxVHPZCA6M"}'
+                  type: object
+                position_ms:
+                  description: Indicates from what position to start playback. Must be a positive
+                    number. Passing in a position that is greater than the
+                    length of the track will cause the player to start playing
+                    the next song.
+                  format: int32
+                  type: integer
+                uris:
+                  description: 'A JSON array of the Spotify track URIs to play. For example:
+                    {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh",
+                    "spotify:track:1301WleyT98MSxVHPZCA6M"]}'
+                  items:
+                    type: string
+                  type: array
+              type: object
+        required: false
+      responses:
+        "204":
+          description: >-
+            A completed request will return a `204 NO CONTENT` response code,
+            and then issue the command to the player. Due to the asynchronous
+            nature of the issuance of the command, you should use the [Get
+            Information About The User's Current
+            Playback](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-information-about-the-users-current-playback)
+            endpoint to check that your issued command was handled correctly by
+            the player.
+
+
+            If the device is not found, the request will return `404 NOT FOUND` response code.
+
+
+            If the user making the request is non-premium, a `403 FORBIDDEN` response code will be returned.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-modify-playback-state
+      summary: Start/Resume a User's Playback
+      tags:
+        - category-player
+  /me/player/previous:
+    post:
+      description: Skips to previous track in the user's queue.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-skip-users-playback-to-previous-track
+      operationId: endpoint-skip-users-playback-to-previous-track
+      parameters:
+        - description: >-
+            A valid access token from the Spotify Accounts service: see the
+            [Web API Authorization
+            Guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+            for details.  
+
+            The access token must have been issued on behalf of a user.  
+
+            The access token must have the `user-modify-playback-state` scope authorized in order to control playback.
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: The id of the device this command is targeting. If not supplied,
+            the user's currently active device is the target.
+          in: query
+          name: device_id
+          required: false
+          schema:
+            type: string
+      responses:
+        "204":
+          description: >-
+            A completed request will return a `204 NO CONTENT` response code,
+            and then issue the command to the player. Due to the asynchronous
+            nature of the issuance of the command, you should use the [Get
+            Information About The User's Current
+            Playback](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-information-about-the-users-current-playback)
+            endpoint to check that your issued command was handled correctly by
+            the player.
+
+
+            If the device is not found, the request will return `404 NOT FOUND` response code.
+
+
+            If the user making the request is non-premium, a `403 FORBIDDEN` response code will be returned.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-modify-playback-state
+      summary: Skip User’s Playback To Previous Track
+      tags:
+        - category-player
+  /me/player/queue:
+    post:
+      description: Add an item to the end of the user's current playback queue.
+      externalDocs:
+        description: Find more info on the official Spotify Web API Reference
+        url: https://developer.spotify.com/documentation/web-api/reference/#endpoint-add-to-queue
+      operationId: endpoint-add-to-queue
+      parameters:
+        - description: >-
+            A valid access token from the Spotify Accounts service: see the
+            [Web API Authorization
+            Guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+            for details.  
+
+            The access token must have been issued on behalf of a user.  
+
+            The access token must have the `user-modify-playback-state` scope authorized in order to control playback
+          in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - description: The uri of the item to add to the queue. Must be a track or an
+            episode uri.
+          in: query
+          name: uri
+          required: true
+          schema:
+            type: string
+        - description: The id of the device this command is targeting. If not supplied,
+            the user's currently active device is the target.
+          in: query
+          name: device_id
+          required: false
+          schema:
+            type: string
+      responses:
+        "204":
+          description: >-
+            A completed request will return a `204 NO CONTENT` response code,
+            and then issue the command to the player. Due to the asynchronous
+            nature of the issuance of the command, you should use the [Get
+            Information About The User's Current
+            Playback](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-information-about-the-users-current-playback)
+            endpoint to check that your issued command was handled correctly by
+            the player.
+
+
+            If the device is not found, the request will return `404 NOT FOUND` response code.
+
+
+            If the user making the request is non-premium, a `403 FORBIDDEN` response code will be returned.
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - spotify_auth:
+            - user-modify-playback-state
+      summary: Add an item to queue
+      tags:
+        - category-player
