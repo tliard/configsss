@@ -5,6 +5,6 @@ metadata:
   description: Des apis rajoutées à la main
 spec:
   targets:
-    - ./apis/world-of-warcraft-api-yaml
+    - ./apis/world-of-warcraft-api.yaml
     - ./apis/league-of-legends-api.yaml
     
